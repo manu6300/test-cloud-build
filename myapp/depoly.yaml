@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: myapp
-        image: gcr.io/chandu12/myapp:latest
+        image: gcr.io/chandu12/myapp:$COMMIT_SHA
         resources:
           limits:
             memory: "128Mi"
