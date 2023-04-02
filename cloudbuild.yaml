@@ -7,7 +7,7 @@ steps:
   
   # push the images to container registry
 - name: 'gcr.io/cloud-builders/docker'
-  args: ['push', 'gcr.io/$PROJECT_ID/myapp:$COMMIT_SHA' , 'gcr.io/$PROJECT_ID/myapp:latest' , 'gcr.io/$PROJECT_ID/myapp:$BUILD_ID' ]
+  args: ['push', 'gcr.io/$PROJECT_ID/myapp:$COMMIT_SHA' ,'push', 'gcr.io/$PROJECT_ID/myapp:latest' ]
   id: 'push-image-to-container-registry'
   waitFor: ['build-myapp-image']
   
@@ -16,7 +16,7 @@ steps:
   args:
   - run
   - --filename=./myapp/
-  - --image=gcr.io/$PROJECT_ID/myapp:$COMMIT_SHA
+  - --image=gcr.io/$PROJECT_ID/myapp:latest
   - --location=us-central1-c
   - --cluster=test-gke
   
