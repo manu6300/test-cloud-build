@@ -17,8 +17,8 @@ steps:
   - run
   - --filename=./myapp/
   - --image=gcr.io/$PROJECT_ID/myapp:$COMMIT_SHA
-  - --location=us-central1
-  - --cluster=test-cluster
+  - --location=us-central1-c
+  - --cluster=test-gke
   
 
   
