@@ -5,22 +5,25 @@ steps:
   id: 'build-myapp-image'
   waitFor: ['-'] 
   
-  # push the images to container registry
+ # push the images to container registry
 - name: 'gcr.io/cloud-builders/docker'
-  args: ['push', 'gcr.io/$PROJECT_ID/myapp:$COMMIT_SHA' ,'push', 'gcr.io/$PROJECT_ID/myapp:latest' ]
+  args: ['push', 'gcr.io/$PROJECT_ID/myapp:$COMMIT_SHA']
   id: 'push-image-to-container-registry'
-  waitFor: ['build-myapp-image']
+  waitFor: ['build-myapp-image']  
   
  # deploy container image to GKE
 - name: "gcr.io/cloud-builders/gke-deploy"
   args:
   - run
   - --filename=./myapp/
-  - --image=gcr.io/$PROJECT_ID/myapp:latest
+  - --image=gcr.io/$PROJECT_ID/myapp:$COMMIT_SHA
   - --location=us-central1-c
   - --cluster=test-gke
   
-
+images:
+ - 'gcr.io/$PROJECT_ID/myapp:latest'
+ - 'gcr.io/$PROJECT_ID/myapp:$COMMIT_SHA'
+ - 'gcr.io/$PROJECT_ID/myapp:$BUILD_ID'
   
 options:
   logging: CLOUD_LOGGING_ONLY
