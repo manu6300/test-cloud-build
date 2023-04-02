@@ -5,6 +5,11 @@ steps:
   id: 'build-myapp-image'
   waitFor: ['-'] 
   
+  # push the images to container registry
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['push', 'gcr.io/$PROJECT_ID/myapp:$COMMIT_SHA']
+  id: 'push-image-to-container-registry'
+  waitFor: ['build-myapp-image']
   
 options:
   logging: CLOUD_LOGGING_ONLY
