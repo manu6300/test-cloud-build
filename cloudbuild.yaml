@@ -1,13 +1,13 @@
 steps:
 # build the docker images and store in container registry in github.com folder
 - name: 'gcr.io/cloud-builders/docker' # it is inbuilt images and below tasks run on this images/instance
-  args: ['build', '-t', 'gcr.io/$PROJECT_ID/myapp:latest', '-t', 'gcr.io/$PROJECT_ID/myapp:$COMMIT_SHA', '-t', 'gcr.io/$PROJECT_ID/myapp:$BUILD_ID', '.' ]
+  args: ['build', '-t', 'gcr.io/$PROJECT_ID/test-app:latest', '-t', 'gcr.io/$PROJECT_ID/test-app:$COMMIT_SHA', '-t', 'gcr.io/$PROJECT_ID/test-app:$BUILD_ID', '.' ]
   id: 'build-myapp-image'
   waitFor: ['-'] 
   
  # push the images to container registry
 - name: 'gcr.io/cloud-builders/docker'
-  args: ['push', 'gcr.io/$PROJECT_ID/myapp:latest']
+  args: ['push', 'gcr.io/$PROJECT_ID/test-app:latest']
   id: 'push-image-to-container-registry'
   waitFor: ['build-myapp-image']  
   
@@ -16,14 +16,14 @@ steps:
   args:
   - run
   - --filename=./myapp/
-  - --image=gcr.io/$PROJECT_ID/myapp:latest
+  - --image=gcr.io/$PROJECT_ID/test-app:latest
   - --location=us-central1-c
   - --cluster=test-gke
   
 images:
- - 'gcr.io/$PROJECT_ID/myapp:latest'
- - 'gcr.io/$PROJECT_ID/myapp:$COMMIT_SHA'
- - 'gcr.io/$PROJECT_ID/myapp:$BUILD_ID'
+ - 'gcr.io/$PROJECT_ID/test-app:latest'
+ - 'gcr.io/$PROJECT_ID/test-app:$COMMIT_SHA'
+ - 'gcr.io/$PROJECT_ID/test-app:$BUILD_ID'
   
 options:
   logging: CLOUD_LOGGING_ONLY
