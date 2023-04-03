@@ -1,11 +1,9 @@
-FROM ubuntu 
-RUN apt update 
-RUN apt install –y apache2 
-RUN apt install –y apache2-utils 
-RUN apt clean 
-COPY index.html /var/www/html/index.html
+FROM centos
+RUN yum install httpd -y
+COPY index.html /var/www/html/
+
+CMD [“/usr/sbin/httpd”,” -D”,” FOREGROUND”]
 EXPOSE 80
-CMD [“apache2ctl”, “-D”, “FOREGROUND”]
 
 
 # FROM centos:7
